@@ -689,5 +689,8 @@ class Crawlers extends AbstractProvider
         'ZnajdzFoto',
         'ZyBorg',
         '[a-z0-9\-_]*((?<!cu)bot|crawler|archiver|transcoder|spider|uptime)',
+        'spider|bot|archive|twitter|kik|youtube',
+        'um-LN|seoscanners|Exractor|FrankerFaceZ',
+        'InfegyAtlas|NewShareCounts|Automatic',
     );
 }
