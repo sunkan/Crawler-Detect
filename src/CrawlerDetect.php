@@ -80,7 +80,7 @@ class CrawlerDetect
     public function setHttpHeaders($httpHeaders = null)
     {
         // Use global _SERVER if $httpHeaders aren't defined.
-        if (! is_array($httpHeaders) || ! count($httpHeaders)) {
+        if (!is_array($httpHeaders) || !count($httpHeaders)) {
             $httpHeaders = $_SERVER;
         }
 
@@ -118,13 +118,24 @@ class CrawlerDetect
         } else {
             $this->userAgent = null;
             foreach ($this->getUaHttpHeaders() as $altHeader) {
-                if (false === empty($this->httpHeaders[$altHeader])) { // @todo: should use getHttpHeader(), but it would be slow.
-                    $this->userAgent .= $this->httpHeaders[$altHeader].' ';
+                if (false === empty($this->httpHeaders[$altHeader])) {
+                    // @todo: should use getHttpHeader(), but it would be slow.
+                    $this->userAgent .= $this->httpHeaders[$altHeader] . ' ';
                 }
             }
 
-            $this->userAgent = (! empty($this->userAgent) ? trim($this->userAgent) : null);
+            $this->userAgent = (!empty($this->userAgent) ? trim($this->userAgent) : null);
         }
+    }
+
+    /**
+     * Retrive the user agent
+     *
+     * @return string
+     */
+    public function getUserAgent()
+    {
+        return $this->userAgent;
     }
 
     /**
@@ -134,7 +145,7 @@ class CrawlerDetect
      */
     public function getRegex()
     {
-        return '('.implode('|', $this->crawlers->getAll()).')';
+        return '(' . implode('|', $this->crawlers->getAll()) . ')';
     }
 
     /**
@@ -144,7 +155,7 @@ class CrawlerDetect
      */
     public function getExclusions()
     {
-        return '('.implode('|', $this->exclusions->getAll()).')';
+        return '(' . implode('|', $this->exclusions->getAll()) . ')';
     }
 
     /**
@@ -158,13 +169,13 @@ class CrawlerDetect
     {
         $agent = $userAgent ?: $this->userAgent;
 
-        $agent = preg_replace('/'.$this->getExclusions().'/i', '', $agent);
+        $agent = preg_replace('/' . $this->getExclusions() . '/i', '', $agent);
 
         if (strlen(trim($agent)) == 0) {
             return false;
         }
 
-        $result = preg_match('/'.$this->getRegex().'/i', trim($agent), $matches);
+        $result = preg_match('/' . $this->getRegex() . '/i', trim($agent), $matches);
 
         if ($matches) {
             $this->matches = $matches;
